@@ -14,12 +14,18 @@ const fact = match(
   [$, (n) => n * fact(n - 1)]
 )
 
+fact(5)
+// => 120
+
 const add = match(
   [1, 2, () => return 3],
   [4, 2, () => return 6],
   // Only one elemnt in array will be equal to [$, $, (num1, num2) => num1 + num2].
   [(num1, num2) => num1 + num2]
 )
+
+add(4,5)
+// => 9
 
 const complexMatch = match(
   [equal({name: "jason"}), equal({name: "jack"}), (obja, objb) => { /** some thing */ }],

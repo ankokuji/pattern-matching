@@ -16,7 +16,7 @@ export function match(...matchItems: MatchItem[]): (...args: any[]) => any {
     return () => {}
   }
   return (...args: any[]) => {
-    matchAndExecAllMatchItems(args, matchItems)
+    return matchAndExecAllMatchItems(args, matchItems)
   }
 }
 

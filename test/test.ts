@@ -7,6 +7,14 @@ const add = match(
   // [() => console.log("default pattern")]
 )
 
+const fact = match(
+  [0, () => 1],
+  // Identify `$` represents a pattern of `any`.
+  [$, (n) => n * fact(n - 1)]
+)
+
+const ss = fact(5)
+
 // const fun: (...args: any[]) => any = (a, b) => {return a+ b}
 
 const res = add(4,6)
