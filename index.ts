@@ -59,8 +59,8 @@ function matchAndExecAllMatchItems(args: any[], matchItems: MatchItem[]) {
 function matchAndExec(args: any[], matchItem: MatchItem): [boolean, any] {
   const execFun = last(matchItem)
   const patterns = initial(matchItem)
-  const isMatched = examPattern(patterns, args)
-  let execResult
+  const isMatched = isMatchedWithAllPatternCase(patterns, args)
+  let execResult: any
   if(isMatched) {
     execResult = execFun.apply(null, args)
   }
@@ -74,11 +74,11 @@ function matchAndExec(args: any[], matchItem: MatchItem): [boolean, any] {
  * @param {any[]} args
  * @returns
  */
-function examPattern(patterns: any[], args: any[]) {
-  if (equalLength2Array(patterns, args)) {
-    return examWithSameLength(args, patterns)
+function isMatchedWithAllPatternCase(patterns: any[], args: any[]): boolean {
+  if (is2ArrayLengthEqual(patterns, args)) {
+    return isMatchedWithSameLength(args, patterns)
   } else if (patterns.length === 1){
-    return examWithPatternFun(args, patterns)
+    return isMatchedByPatternFun(args, patterns)
   } else if (patterns.length === 0) {
     // No pattern in this item.
     return true
@@ -95,7 +95,7 @@ function examPattern(patterns: any[], args: any[]) {
  * @param {any[]} patterns
  * @returns
  */
-function examWithSameLength(args: any[], patterns: any[]) {
+function isMatchedWithSameLength(args: any[], patterns: any[]): boolean {
   const length = args.length
   let isMatched = true
   for (let i = 0; i < length; i++) {
@@ -114,9 +114,9 @@ function examWithSameLength(args: any[], patterns: any[]) {
  * @param {*} patterns
  * @returns
  */
-function examWithPatternFun(args: any[], patterns: any) {
+function isMatchedByPatternFun(args: any[], patterns: any): boolean {
   const patternFun = head(patterns)
-  return patternFun.apply(null, args)
+  return !!patternFun.apply(null, args)
 }
 
 /**
@@ -126,7 +126,7 @@ function examWithPatternFun(args: any[], patterns: any) {
  * @param {any[]} array2
  * @returns
  */
-function equalLength2Array(array1: any[], array2: any[]) {
+function is2ArrayLengthEqual(array1: any[], array2: any[]): boolean {
   if (!isArray(array1) || !isArray(array2)) {
     return false
   } else {
@@ -141,7 +141,7 @@ function equalLength2Array(array1: any[], array2: any[]) {
  * @param {*} target
  * @returns
  */
-function isMatch(pattern: any, target: any) {
+function isMatch(pattern: any, target: any): boolean {
   if (pattern === ANY_PATTERN) {
     return true
   }
@@ -158,7 +158,7 @@ function isMatch(pattern: any, target: any) {
  * @param {any[]} arr
  * @returns
  */
-function last(arr: any[]) {
+function last(arr: any[]): any {
   if (!isArray(arr)) {
     return undefined
   }
@@ -195,7 +195,7 @@ function initial(arr: any[]) {
  * @param {*} arr
  * @returns
  */
-function isArray(arr: any) {
+function isArray(arr: any): boolean {
   return Array.isArray(arr)
 }
 
